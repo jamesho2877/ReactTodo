@@ -104,20 +104,16 @@
 	    IndexRoute = _require.IndexRoute,
 	    hashHistory = _require.hashHistory;
 
+	var TodoApp = __webpack_require__(229);
+
 	// load foundation
-
-
-	__webpack_require__(229);
+	__webpack_require__(230);
 	$(document).foundation();
 
 	// Load app.css
-	__webpack_require__(234);
+	__webpack_require__(235);
 
-	ReactDOM.render(React.createElement(
-	   'h1',
-	   null,
-	   'Boilerplate 3 Project'
-	), document.getElementById('app'));
+	ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('app'));
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
@@ -25480,10 +25476,50 @@
 /* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var React = __webpack_require__(8);
+	var TodoList = __webpack_require__(237);
+
+	var TodoApp = React.createClass({
+	   displayName: 'TodoApp',
+
+	   getInitialState: function getInitialState() {
+	      return {
+	         todos: [{
+	            id: 1,
+	            text: 'Walk a dog'
+	         }, {
+	            id: 2,
+	            text: 'Clean the yard'
+	         }, {
+	            id: 3,
+	            text: 'Hang around with friends'
+	         }, {
+	            id: 4,
+	            text: 'Buy some milk'
+	         }]
+	      };
+	   },
+	   render: function render() {
+	      var todos = this.state.todos;
+
+
+	      return React.createElement(TodoList, { todos: todos });
+	   }
+
+	});
+
+	module.exports = TodoApp;
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(230);
+	var content = __webpack_require__(231);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -25491,7 +25527,7 @@
 	var options = {}
 	options.transform = transform
 	// add the styles to the DOM
-	var update = __webpack_require__(232)(content, options);
+	var update = __webpack_require__(233)(content, options);
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25508,10 +25544,10 @@
 	}
 
 /***/ }),
-/* 230 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(231)(undefined);
+	exports = module.exports = __webpack_require__(232)(undefined);
 	// imports
 
 
@@ -25522,7 +25558,7 @@
 
 
 /***/ }),
-/* 231 */
+/* 232 */
 /***/ (function(module, exports) {
 
 	/*
@@ -25604,7 +25640,7 @@
 
 
 /***/ }),
-/* 232 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -25641,7 +25677,7 @@
 		singletonElement = null,
 		singletonCounter = 0,
 		styleElementsInsertedAtTop = [],
-		fixUrls = __webpack_require__(233);
+		fixUrls = __webpack_require__(234);
 
 	module.exports = function(list, options) {
 		if(false) {
@@ -25917,7 +25953,7 @@
 
 
 /***/ }),
-/* 233 */
+/* 234 */
 /***/ (function(module, exports) {
 
 	
@@ -26012,13 +26048,13 @@
 
 
 /***/ }),
-/* 234 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(235);
+	var content = __webpack_require__(236);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -26026,7 +26062,7 @@
 	var options = {}
 	options.transform = transform
 	// add the styles to the DOM
-	var update = __webpack_require__(232)(content, options);
+	var update = __webpack_require__(233)(content, options);
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -26043,10 +26079,10 @@
 	}
 
 /***/ }),
-/* 235 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(231)(undefined);
+	exports = module.exports = __webpack_require__(232)(undefined);
 	// imports
 
 
@@ -26055,6 +26091,72 @@
 
 	// exports
 
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(8);
+	var Todo = __webpack_require__(238);
+
+	var TodoList = React.createClass({
+	   displayName: 'TodoList',
+
+	   render: function render() {
+	      var todos = this.props.todos;
+
+
+	      var renderTodo = function renderTodo() {
+	         return todos.map(function (todo) {
+	            return React.createElement(Todo, _extends({ key: todo.id }, todo));
+	         });
+	      };
+
+	      return React.createElement(
+	         'div',
+	         null,
+	         renderTodo()
+	      );
+	   }
+
+	});
+
+	module.exports = TodoList;
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var Todo = React.createClass({
+	   displayName: 'Todo',
+
+
+	   render: function render() {
+	      var _props = this.props,
+	          id = _props.id,
+	          text = _props.text;
+
+
+	      return React.createElement(
+	         'div',
+	         null,
+	         id,
+	         '. ',
+	         text
+	      );
+	   }
+
+	});
+
+	module.exports = Todo;
 
 /***/ })
 /******/ ]);
