@@ -107,11 +107,11 @@
 	var TodoApp = __webpack_require__(229);
 
 	// load foundation
-	__webpack_require__(230);
+	__webpack_require__(233);
 	$(document).foundation();
 
 	// Load app.css
-	__webpack_require__(235);
+	__webpack_require__(238);
 
 	ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('app'));
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
@@ -25479,7 +25479,8 @@
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var TodoList = __webpack_require__(237);
+	var TodoList = __webpack_require__(230);
+	var AddTodo = __webpack_require__(232);
 
 	var TodoApp = React.createClass({
 	   displayName: 'TodoApp',
@@ -25501,11 +25502,23 @@
 	         }]
 	      };
 	   },
+	   handleAddTodo: function handleAddTodo(text) {
+	      alert('new todo: ' + text);
+	   },
 	   render: function render() {
 	      var todos = this.state.todos;
 
 
-	      return React.createElement(TodoList, { todos: todos });
+	      return React.createElement(
+	         'div',
+	         { className: 'row' },
+	         React.createElement(
+	            'div',
+	            { className: 'column small-centered medium-6 large-6' },
+	            React.createElement(TodoList, { todos: todos }),
+	            React.createElement(AddTodo, { onAddTodo: this.handleAddTodo })
+	         )
+	      );
 	   }
 
 	});
@@ -25516,10 +25529,119 @@
 /* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(8);
+	var Todo = __webpack_require__(231);
+
+	var TodoList = React.createClass({
+	   displayName: 'TodoList',
+
+	   render: function render() {
+	      var todos = this.props.todos;
+
+
+	      var renderTodo = function renderTodo() {
+	         return todos.map(function (todo) {
+	            return React.createElement(Todo, _extends({ key: todo.id }, todo));
+	         });
+	      };
+
+	      return React.createElement(
+	         'div',
+	         null,
+	         renderTodo()
+	      );
+	   }
+
+	});
+
+	module.exports = TodoList;
+
+/***/ }),
+/* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var Todo = React.createClass({
+	   displayName: 'Todo',
+
+
+	   render: function render() {
+	      var _props = this.props,
+	          id = _props.id,
+	          text = _props.text;
+
+
+	      return React.createElement(
+	         'div',
+	         null,
+	         id,
+	         '. ',
+	         text
+	      );
+	   }
+
+	});
+
+	module.exports = Todo;
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var AddTodo = React.createClass({
+	   displayName: 'AddTodo',
+
+	   handleFormSubmit: function handleFormSubmit(e) {
+	      e.preventDefault();
+	      var todoText = this.refs.todoText.value;
+
+	      if (todoText.trim().length > 0 && todoText.match(/([\w.]+)/)) {
+	         this.refs.todoText.value = '';
+	         this.props.onAddTodo(todoText);
+	      } else {
+	         this.refs.todoText.focus();
+	      }
+	   },
+	   render: function render() {
+	      return React.createElement(
+	         'div',
+	         null,
+	         React.createElement(
+	            'form',
+	            { onSubmit: this.handleFormSubmit },
+	            React.createElement('input', { type: 'text', ref: 'todoText', placeholder: 'What do you need to do ?' }),
+	            React.createElement(
+	               'button',
+	               { className: 'button expanded primary' },
+	               'Add Todo'
+	            )
+	         )
+	      );
+	   }
+
+	});
+
+	module.exports = AddTodo;
+
+/***/ }),
+/* 233 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(231);
+	var content = __webpack_require__(234);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -25527,7 +25649,7 @@
 	var options = {}
 	options.transform = transform
 	// add the styles to the DOM
-	var update = __webpack_require__(233)(content, options);
+	var update = __webpack_require__(236)(content, options);
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25544,10 +25666,10 @@
 	}
 
 /***/ }),
-/* 231 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(232)(undefined);
+	exports = module.exports = __webpack_require__(235)(undefined);
 	// imports
 
 
@@ -25558,7 +25680,7 @@
 
 
 /***/ }),
-/* 232 */
+/* 235 */
 /***/ (function(module, exports) {
 
 	/*
@@ -25640,7 +25762,7 @@
 
 
 /***/ }),
-/* 233 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -25677,7 +25799,7 @@
 		singletonElement = null,
 		singletonCounter = 0,
 		styleElementsInsertedAtTop = [],
-		fixUrls = __webpack_require__(234);
+		fixUrls = __webpack_require__(237);
 
 	module.exports = function(list, options) {
 		if(false) {
@@ -25953,7 +26075,7 @@
 
 
 /***/ }),
-/* 234 */
+/* 237 */
 /***/ (function(module, exports) {
 
 	
@@ -26048,13 +26170,13 @@
 
 
 /***/ }),
-/* 235 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(236);
+	var content = __webpack_require__(239);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -26062,7 +26184,7 @@
 	var options = {}
 	options.transform = transform
 	// add the styles to the DOM
-	var update = __webpack_require__(233)(content, options);
+	var update = __webpack_require__(236)(content, options);
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -26079,10 +26201,10 @@
 	}
 
 /***/ }),
-/* 236 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(232)(undefined);
+	exports = module.exports = __webpack_require__(235)(undefined);
 	// imports
 
 
@@ -26091,72 +26213,6 @@
 
 	// exports
 
-
-/***/ }),
-/* 237 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var React = __webpack_require__(8);
-	var Todo = __webpack_require__(238);
-
-	var TodoList = React.createClass({
-	   displayName: 'TodoList',
-
-	   render: function render() {
-	      var todos = this.props.todos;
-
-
-	      var renderTodo = function renderTodo() {
-	         return todos.map(function (todo) {
-	            return React.createElement(Todo, _extends({ key: todo.id }, todo));
-	         });
-	      };
-
-	      return React.createElement(
-	         'div',
-	         null,
-	         renderTodo()
-	      );
-	   }
-
-	});
-
-	module.exports = TodoList;
-
-/***/ }),
-/* 238 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(8);
-
-	var Todo = React.createClass({
-	   displayName: 'Todo',
-
-
-	   render: function render() {
-	      var _props = this.props,
-	          id = _props.id,
-	          text = _props.text;
-
-
-	      return React.createElement(
-	         'div',
-	         null,
-	         id,
-	         '. ',
-	         text
-	      );
-	   }
-
-	});
-
-	module.exports = Todo;
 
 /***/ })
 /******/ ]);
